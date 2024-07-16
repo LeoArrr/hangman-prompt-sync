@@ -16,7 +16,7 @@ const hangman = {
       "amplifier",
       "mixer",
       "recorder",
-      "peaker",
+      "speaker",
       "turntable",
       "cdplayer",
       "radio",
