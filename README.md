@@ -3,7 +3,7 @@
 ## Day 1: July 15, 2024
 
 ### Project Overview
-Today, we began development on a Hangman game using JavaScript. The game allows users to select a topic (Music, City, or Animal) and guess letters to uncover a randomly chosen word from that topic.
+Today, I began development on a Hangman game using JavaScript. The game allows users to select a topic (Music, City, or Animal) and guess letters to uncover a randomly chosen word from that topic.
 
 ### Features Implemented
 - Created a `hangman` object with properties for topics, word, guessed letters, attempts, and lifespan.
@@ -20,13 +20,13 @@ The code is organized into two files:
 ## Day 2: July 16, 2024
 
 ### Refining Game Logic
-Today, we refined the game logic to enhance challenge and enjoyment:
+Today, I refined the game logic to enhance challenge and enjoyment:
 - Implemented a decreasing lifespan display using ASCII art.
 - Updated the `guessLetter` method to decrement attempts and lifespan on incorrect guesses.
 - Prevented duplicate letter guesses by users.
 
 ### Additional Features
-We also added features to improve user experience:
+I also added features to improve user experience:
 - Implemented a welcome message and topic selection prompt.
 - Added a congratulatory message upon winning the game.
 - Displayed the correct answer when the user loses the game.
