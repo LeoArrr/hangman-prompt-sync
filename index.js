@@ -1,43 +1,65 @@
-const prompt = require("prompt-sync")();
 const chalk = require("chalk");
+const prompt = require("prompt-sync")();
+const { welcome } = require("./welcome");
 const hangman = require("./game");
 
-console.log(chalk.green.bold("Welcome to Hangman!"));
-console.log(chalk.cyan("Choose a topic: Music, City, or Animal"));
+let gamesPlayed = [];
 
-const topic = prompt(chalk.magenta("Enter a topic: ")).toLowerCase();
+async function startHangmanGame() {
+  await welcome();
 
-if (!["music", "city", "animal"].includes(topic)) {
-  console.log(chalk.red("Invalid topic. Exiting game."));
-  process.exit();
-}
+  console.log(chalk.cyan("Choose a topic: Music, City, or Animal"));
 
-hangman.startGame(topic);
+  const topic = prompt(chalk.magenta("Enter a topic: ")).toLowerCase();
 
-console.log(chalk.blue(hangman.displayWord()));
-console.log(chalk.yellow(hangman.displayLifespan()));
+  if (!["music", "city", "animal"].includes(topic)) {
+    console.log(chalk.red("Invalid topic. Exiting game."));
+    process.exit();
+  }
 
-while (true) {
-  const letter = prompt(chalk.magenta("Guess a letter: ")).toLowerCase();
-
-  hangman.guessLetter(letter);
+  hangman.startGame(topic);
 
   console.log(chalk.blue(hangman.displayWord()));
   console.log(chalk.yellow(hangman.displayLifespan()));
 
-  if (hangman.checkWin()) {
-    console.log(chalk.green("Congratulations! You won!"));
-    break;
+  while (true) {
+    const letter = prompt(chalk.magenta("Guess a letter: ")).toLowerCase();
+
+    hangman.guessLetter(letter);
+
+    console.log(chalk.blue(hangman.displayWord()));
+    console.log(chalk.yellow(hangman.displayLifespan()));
+
+    if (hangman.checkWin()) {
+      console.log(chalk.green("Congratulations! You won!"));
+      gamesPlayed.push({ name: hangman.word, outcome: "win" });
+      break;
+    }
+
+    if (hangman.checkLoss()) {
+      console.log(chalk.red(`Sorry, you lost! The word was ${hangman.word}`));
+      gamesPlayed.push({ name: hangman.word, outcome: "loss" });
+      break;
+    }
+
+    if (hangman.lifespan.length === 0) {
+      console.log(chalk.red("'¯\\_(:/)_/¯'"));
+      console.log(chalk.red("Game over!"));
+      gamesPlayed.push({ name: hangman.word, outcome: "loss" });
+      break;
+    }
   }
 
-  if (hangman.checkLoss()) {
-    console.log(chalk.red(`Sorry, you lost! The word was ${hangman.word}`));
-    break;
-  }
+  // Display game over emoji after games played
+  console.log("\nGames Played:");
+  gamesPlayed.forEach((game) => {
+    console.log(`${game.name} - ${game.outcome}`);
+  });
 
-  if (hangman.lifespan.length === 0) {
-    console.log(chalk.red("'¯\\_(:/)_/¯'"));
-    console.log(chalk.red("Game over!"));
-    break;
+  if (gamesPlayed.some((game) => game.outcome === "loss")) {
+    console.log(chalk.red.bold("'¯\\_(:/)_/¯'"));
+    console.log(chalk.red.bold("Game over!"));
   }
 }
+
+startHangmanGame();

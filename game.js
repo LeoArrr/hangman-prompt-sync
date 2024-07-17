@@ -82,14 +82,14 @@ const hangman = {
   word: "",
   guessed: [],
   attempts: 6,
-  lifespan: "¯\\_(:/)_/¯".split(""),
+  lifespan: [], // Start with an empty array
 
   startGame(topic) {
     this.word =
       this.topics[topic][Math.floor(Math.random() * this.topics[topic].length)];
     this.guessed = [];
     this.attempts = 6;
-    this.lifespan = "¯\\_(:/)_/¯".split("");
+    this.lifespan = []; // Reset lifespan to an empty array
     console.log(
       chalk.cyanBright.bold("Starting a new game with topic: ") +
         chalk.magentaBright.bold(topic)
@@ -107,10 +107,25 @@ const hangman = {
 
     if (!this.word.includes(letter)) {
       this.attempts--;
+
+      if (this.attempts > 0) {
+        while (this.lifespan.length < 6 - this.attempts) {
+          this.lifespan.push(
+            "¯\\_(:/)_/¯".slice(
+              this.lifespan.length * 2,
+              this.lifespan.length * 2 + 2
+            )
+          );
+        }
+      }
+
       console.log(
-        chalk.redBright(`Incorrect! You have ${this.attempts} attempts left.`)
+        chalk.redBright(
+          `Incorrect! You have ${this.attempts} attempt${
+            this.attempts === 1 ? "" : "s"
+          } left.`
+        )
       );
-      this.lifespan = this.lifespan.slice(0, -2);
     } else {
       console.log(chalk.greenBright(`Correct!`));
     }
@@ -122,21 +137,11 @@ const hangman = {
   },
 
   checkWin() {
-    if (this.word.split("").every((letter) => this.guessed.includes(letter))) {
-      console.log(chalk.greenBright.bold("Congratulations! You won!"));
-      return true;
-    }
-    return false;
+    return this.word.split("").every((letter) => this.guessed.includes(letter));
   },
 
   checkLoss() {
-    if (this.attempts === 0) {
-      console.log(
-        chalk.redBright.bold(`Game over! The word was: ${this.word}`)
-      );
-      return true;
-    }
-    return false;
+    return this.attempts === 0;
   },
 
   displayWord() {
