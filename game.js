@@ -82,14 +82,14 @@ const hangman = {
   word: "",
   guessed: [],
   attempts: 6,
-  lifespan: [], // Start with an empty array
+  lifespan: [],
 
   startGame(topic) {
     this.word =
       this.topics[topic][Math.floor(Math.random() * this.topics[topic].length)];
     this.guessed = [];
     this.attempts = 6;
-    this.lifespan = []; // Reset lifespan to an empty array
+    this.lifespan = [];
     console.log(
       chalk.cyanBright.bold("Starting a new game with topic: ") +
         chalk.magentaBright.bold(topic)

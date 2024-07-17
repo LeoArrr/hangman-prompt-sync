@@ -50,7 +50,6 @@ async function startHangmanGame() {
     }
   }
 
-  // Display game over emoji after games played
   console.log("\nGames Played:");
   gamesPlayed.forEach((game) => {
     console.log(`${game.name} - ${game.outcome}`);
