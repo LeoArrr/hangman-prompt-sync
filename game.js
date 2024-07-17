@@ -1,3 +1,5 @@
+const chalk = require("chalk");
+
 const hangman = {
   topics: {
     music: [
@@ -86,11 +88,18 @@ const hangman = {
     this.word =
       this.topics[topic][Math.floor(Math.random() * this.topics[topic].length)];
     this.guessed = [];
+    this.attempts = 6;
+    this.lifespan = "¯\\_(:/)_/¯".split("");
+    console.log(
+      chalk.cyanBright.bold("Starting a new game with topic: ") +
+        chalk.magentaBright.bold(topic)
+    );
+    console.log(chalk.cyanBright.bold("Good luck!"));
   },
 
   guessLetter(letter) {
     if (this.guessed.includes(letter)) {
-      console.log(`You already guessed ${letter}!`);
+      console.log(chalk.yellowBright(`You already guessed ${letter}!`));
       return;
     }
 
@@ -98,19 +107,36 @@ const hangman = {
 
     if (!this.word.includes(letter)) {
       this.attempts--;
-      console.log(`Incorrect! You have ${this.attempts} attempts left.`);
+      console.log(
+        chalk.redBright(`Incorrect! You have ${this.attempts} attempts left.`)
+      );
       this.lifespan = this.lifespan.slice(0, -2);
     } else {
-      console.log(`Correct!`);
+      console.log(chalk.greenBright(`Correct!`));
     }
+
+    console.log(chalk.blueBright.bold(`Current word: ${this.displayWord()}`));
+    console.log(
+      chalk.magentaBright.bold(`Lifespan: ${this.displayLifespan()}`)
+    );
   },
 
   checkWin() {
-    return this.word.split("").every((letter) => this.guessed.includes(letter));
+    if (this.word.split("").every((letter) => this.guessed.includes(letter))) {
+      console.log(chalk.greenBright.bold("Congratulations! You won!"));
+      return true;
+    }
+    return false;
   },
 
   checkLoss() {
-    return this.attempts === 0;
+    if (this.attempts === 0) {
+      console.log(
+        chalk.redBright.bold(`Game over! The word was: ${this.word}`)
+      );
+      return true;
+    }
+    return false;
   },
 
   displayWord() {
