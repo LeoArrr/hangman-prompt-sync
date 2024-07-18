@@ -1,64 +1,72 @@
 const chalk = require("chalk");
 const prompt = require("prompt-sync")();
-const hangman = require("./hangman-logic");
-const { startNumberGuessingGame } = require("./number-game-logic");
+const hangman = require("./hangman-logic.js");
+const { startNumberGuessingGame } = require("./number-game-logic.js");
 
 let gamesPlayed = [];
 
 function startHangmanGame() {
-  console.log(chalk.cyan("Choose a topic: Music, City, or Animal"));
+  console.log(chalk.hex("#FF00FF")("Welcome to Hangman!"));
 
-  const topic = prompt(chalk.magenta("Enter a topic: ")).toLowerCase();
+  console.log(chalk.hex("#33CCFF")("Choose a topic: Music, City, or Animal"));
+  const topic = prompt(chalk.hex("#FF69B4")("Enter a topic: ")).toLowerCase();
 
   if (!["music", "city", "animal"].includes(topic)) {
-    console.log(chalk.red("Invalid topic. Exiting game."));
+    console.log(chalk.hex("#FF00FF")("Invalid topic. Exiting game."));
     process.exit();
   }
 
   hangman.startGame(topic);
 
-  console.log(chalk.blue(hangman.displayWord()));
-  console.log(
-    chalk.magentaBright.bold(`Lifespan: ${hangman.displayLifespan()}`)
-  );
+  console.log(chalk.hex("#FF00FF")(`Starting a new game with topic: ${topic}`));
+  console.log(chalk.hex("#FF00FF")("Good luck!"));
+
+  console.log(chalk.hex("#FF00FF")(hangman.displayWord()));
+  console.log(chalk.hex("#FF00FF")(`Lifespan: ${hangman.displayLifespan()}`));
 
   while (true) {
-    const letter = prompt(chalk.magenta("Guess a letter: ")).toLowerCase();
-
+    const letter = prompt(
+      chalk.hex("#FF69B4")("Guess a letter: ")
+    ).toLowerCase();
     hangman.guessLetter(letter);
 
-    console.log(chalk.blue(hangman.displayWord()));
-    console.log(
-      chalk.magentaBright.bold(`Lifespan: ${hangman.displayLifespan()}`)
-    );
+    console.log(chalk.hex("#FF00FF")(hangman.displayWord()));
+    console.log(chalk.hex("#FF00FF")(`Lifespan: ${hangman.displayLifespan()}`));
 
-    if (hangman.checkWin()) {
+    if (
+      hangman.word.split("").every((letter) => hangman.guessed.includes(letter))
+    ) {
       gamesPlayed.push({ name: hangman.word, outcome: "win" });
-      console.log("\nGames Played:");
+
+      console.log(chalk.hex("#FF00FF")("\nGames Played:"));
       gamesPlayed.forEach((game) => {
-        console.log(`${game.name} - ${game.outcome}`);
+        console.log(chalk.hex("#FF00FF")(`${game.name} - ${game.outcome}`));
       });
       console.log("\n");
 
       console.log(
-        chalk.greenBright(
-          "Congratulations! You won the hangman game. Press enter to play the number guessing game..."
-        )
+        chalk.hex("#FF00FF")("Congratulations! You won the hangman game.")
       );
-      prompt(chalk.greenBright(""));
+      prompt(
+        chalk.hex("#33CCFF")("Press enter to play the number guessing game...")
+      );
       startNumberGuessingGame();
       break;
     }
 
-    if (hangman.checkLoss()) {
+    if (hangman.attempts === 0) {
       gamesPlayed.push({ name: hangman.word, outcome: "loss" });
-      console.log("\nGames Played:");
+
+      console.log(chalk.hex("#FF00FF")("\nGames Played:"));
       gamesPlayed.forEach((game) => {
-        console.log(`${game.name} - ${game.outcome}`);
+        console.log(chalk.hex("#FF00FF")(`${game.name} - ${game.outcome}`));
       });
       console.log("\n");
+
       console.log(
-        chalk.red("You lost the hangman game. Better luck next time!")
+        chalk.hex("#FF00FF")(
+          "You lost the hangman game. Better luck next time!"
+        )
       );
       break;
     }

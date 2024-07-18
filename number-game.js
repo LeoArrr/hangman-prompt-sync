@@ -8,8 +8,13 @@ function startNumberGuessingGame() {
   console.log(chalk.cyan("Guess a number between 1 and 100."));
 
   while (true) {
-    const guess = parseInt(prompt(chalk.magenta("Enter your guess: ")));
+    const input = prompt(chalk.magenta("Enter your guess: "));
 
+    if (!/^\d+$/.test(input)) {
+      console.log(chalk.red("Invalid input. Please enter a number."));
+
+      continue;
+    }
     if (isNaN(guess)) {
       console.log(chalk.red("Invalid input. Please enter a number."));
       continue;

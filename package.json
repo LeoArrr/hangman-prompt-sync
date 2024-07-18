@@ -1,8 +1,12 @@
 {
+  "name": "hangman-prompt-sync",
+  "version": "1.0.0",
+  "main": "hangman-game.js",
+  "scripts": {
+    "start": "node hangman-game.js"
+  },
   "dependencies": {
     "chalk": "^4.1.2",
-    "chalk-animation": "^1.4.0",
-    "node-emoji": "^1.11.0",
     "prompt-sync": "^4.2.0"
   }
 }
