@@ -42,7 +42,7 @@ function startHangmanGame() {
 
       console.log(brightRed("\nGames Played:"));
       gamesPlayed.forEach((game) => {
-        console.log(neon(`${game.name} - ${game.outcome}\n`));
+        console.log(brightRed(`${game.name} - ${game.outcome}\n`));
       });
       console.log("\n");
 
