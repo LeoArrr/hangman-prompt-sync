@@ -1,5 +1,13 @@
 const chalk = require("chalk");
 
+// Define color variables
+const neon = chalk.hex("#FF00FF");
+const testColor = chalk.hex("#FFFF00"); // Example yellow
+const correct = chalk.bold.green; // Updated to bold green
+const gameOver = chalk.red;
+const brightWhite = chalk.whiteBright;
+
+// Define the available topics and words
 const topics = {
   music: [
     "guitar",
@@ -78,7 +86,7 @@ const topics = {
   ],
 };
 
-let hangman = {
+const hangman = {
   word: "",
   guessed: [],
   attempts: 6,
@@ -93,7 +101,7 @@ let hangman = {
 
   guessLetter(letter) {
     if (this.guessed.includes(letter)) {
-      console.log(chalk.hex("#FF00FF")(`You already guessed ${letter}!`));
+      console.log(lightYellow(`You already guessed '${letter}'!\n`));
       return;
     }
 
@@ -102,25 +110,25 @@ let hangman = {
     if (!this.word.includes(letter)) {
       this.attempts--;
       console.log(
-        chalk.hex("#FF00FF")(
-          `Incorrect! You have ${this.attempts} attempts left.`
-        )
+        testColor(`\nIncorrect! You have ${this.attempts} attempts left.`)
       );
       this.lifespan.pop();
     } else {
-      console.log(chalk.hex("#FF00FF")("Correct!"));
+      console.log(correct("Correct!"));
     }
 
-    console.log(chalk.hex("#FF00FF")(`Current word: ${this.displayWord()}`));
-    console.log(chalk.hex("#FF00FF")(`Lifespan: ${this.displayLifespan()}`));
+    console.log(brightWhite(`Current word: ${this.displayWord()}\n`));
+    console.log(neon(this.lifespan.join(" "))); // Directly apply color here
 
     if (this.word.split("").every((letter) => this.guessed.includes(letter))) {
-      console.log(chalk.hex("#FF00FF")("Congratulations! You won!"));
+      console.log(correct("Congratulations! You won!\n"));
+      return "win";
     } else if (this.attempts === 0) {
-      console.log(
-        chalk.hex("#FF00FF")(`Game over! The word was: ${this.word}`)
-      );
+      console.log(gameOver(`Game over! The word was: ${this.word}\n`));
+      return "loss";
     }
+
+    return "continue";
   },
 
   displayWord() {
@@ -128,10 +136,6 @@ let hangman = {
       .split("")
       .map((letter) => (this.guessed.includes(letter) ? letter : "_"))
       .join(" ");
-  },
-
-  displayLifespan() {
-    return this.lifespan.join("");
   },
 };
 
