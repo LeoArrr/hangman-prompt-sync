@@ -1,13 +1,13 @@
 const chalk = require("chalk");
 
-// Define color variables
-const neon = chalk.hex("#FF00FF");
-const testColor = chalk.hex("#FFFF00"); // Example yellow
-const correct = chalk.bold.green; // Updated to bold green
+//  color variables
+const brightRed = chalk.hex("#FF0000");
+const brightOrange = chalk.hex("#FFA500");
+const correct = chalk.bold.green;
 const gameOver = chalk.red;
 const brightWhite = chalk.whiteBright;
 
-// Define the available topics and words
+//  available topics and words
 const topics = {
   music: [
     "guitar",
@@ -101,7 +101,7 @@ const hangman = {
 
   guessLetter(letter) {
     if (this.guessed.includes(letter)) {
-      console.log(lightYellow(`You already guessed '${letter}'!\n`));
+      console.log(brightOrange(`You already guessed '${letter}'!\n`));
       return;
     }
 
@@ -110,7 +110,7 @@ const hangman = {
     if (!this.word.includes(letter)) {
       this.attempts--;
       console.log(
-        testColor(`\nIncorrect! You have ${this.attempts} attempts left.`)
+        brightOrange(`\nIncorrect! You have ${this.attempts} attempts left.`)
       );
       this.lifespan.pop();
     } else {
@@ -118,7 +118,7 @@ const hangman = {
     }
 
     console.log(brightWhite(`Current word: ${this.displayWord()}\n`));
-    console.log(neon(this.lifespan.join(" "))); // Directly apply color here
+    console.log(brightRed(this.lifespan.join(" ")));
 
     if (this.word.split("").every((letter) => this.guessed.includes(letter))) {
       console.log(correct("Congratulations! You won!\n"));

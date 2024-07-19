@@ -3,14 +3,15 @@ const prompt = require("prompt-sync")();
 const hangman = require("./hangman-logic.js");
 const { startNumberGuessingGame } = require("./number-game-logic.js");
 
-// Define color variables
-const neon = chalk.hex("#FF00FF");
-const bold = chalk.bold.green; // Updated to bold green
+// color variables
+const brightRed = chalk.hex("#FF0000");
+const bold = chalk.bold.green;
 const gameOver = chalk.red;
 const brightWhite = chalk.whiteBright;
 const brightPink = chalk.hex("#FF69B4");
+const boldOrange = chalk.hex("#FFA500").bold;
 
-// Track games played
+// track games played
 let gamesPlayed = [];
 
 function startHangmanGame() {
@@ -30,7 +31,7 @@ function startHangmanGame() {
   console.log(bold("Good luck!\n"));
 
   console.log(brightWhite(`Current word: ${hangman.displayWord()}\n`));
-  console.log(neon(hangman.lifespan.join(" "))); // Use the lifespan directly
+  console.log(brightRed(hangman.lifespan.join(" "))); // Use the lifespan directly
 
   while (true) {
     const letter = prompt(brightPink("Guess a letter: ")).toLowerCase();
@@ -39,7 +40,7 @@ function startHangmanGame() {
     if (result === "win") {
       gamesPlayed.push({ name: hangman.word, outcome: "win" });
 
-      console.log(neon("\nGames Played:"));
+      console.log(brightRed("\nGames Played:"));
       gamesPlayed.forEach((game) => {
         console.log(neon(`${game.name} - ${game.outcome}\n`));
       });
@@ -54,9 +55,9 @@ function startHangmanGame() {
     if (result === "loss") {
       gamesPlayed.push({ name: hangman.word, outcome: "loss" });
 
-      console.log(neon("\nGames Played:"));
+      console.log(boldOrange("\nGames Played:"));
       gamesPlayed.forEach((game) => {
-        console.log(neon(`${game.name} - ${game.outcome}\n`));
+        console.log(boldOrange(`${game.name} - ${game.outcome}\n`));
       });
       console.log("\n");
 

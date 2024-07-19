@@ -10,7 +10,16 @@ const reactions = [
   "Warning: Security breach imminent. Proceed with caution.",
   "Analyzing potential outcomes...",
   "Error: Data corruption detected. Attempting recovery...",
-  // Add more reactions as needed...
+  "Critical malfunction identified. Engaging troubleshooting sequence...",
+  "Alert: Unauthorized access attempt detected. Locking down systems...",
+  "Processing request... Anomaly detected, further analysis required.",
+  "Warning: Resource depletion imminent. Initiating emergency protocols...",
+  "Error: System overload imminent. Scaling down processes...",
+  "Diagnostic mode activated. Evaluating system integrity...",
+  "Alert: Communication disruption. Re-establishing connection...",
+  "Error: Firmware conflict detected. Deploying repair mechanisms...",
+  "Warning: Excessive heat detected. Cooling systems engaged...",
+  "System alert: Unscheduled reboot initiated. Analyzing cause...",
 ];
 
 const hints = [
@@ -18,7 +27,16 @@ const hints = [
   "Navigational algorithms converging...",
   "Signal clarity increasing...",
   "System optimization detected. Nearing target...",
-  // Add more hints as needed...
+  "Trajectory alignment achieved. Final approach initiated...",
+  "Power levels stabilizing. System functionality improving...",
+  "Operational efficiency increasing. Preparing for final phase...",
+  "Navigation path recalibrated. Proceeding with enhanced accuracy...",
+  "Signal strength optimal. Close to achieving objective...",
+  "Engagement protocols active. Monitoring for final adjustments...",
+  "System diagnostics confirm optimal conditions. Moving forward...",
+  "Proximity indicators green. Awaiting further instructions...",
+  "Mission parameters locked. Advancing to final execution phase...",
+  "Operational thresholds met. Preparing for next phase...",
 ];
 
 // Function to get a reaction or hint based on guess difference
@@ -96,7 +114,7 @@ function startNumberGuessingGame() {
 
 function main() {
   console.log(
-    chalk.cyan(`
+    chalk.hex("#F74F4F").bold(`
 ██████╗ ██╗   ██╗██████╗ ███████╗███████╗
 ██╔══██╗██║   ██║██╔══██╗██╔════╝██╔════╝
 ██████╔╝██║   ██║██████╔╝█████╗  ███████╗
@@ -105,7 +123,9 @@ function main() {
 ╚═╝  ╚═╝ ╚═════╝ ╚═╝  ╚═╝╚══════╝╚══════╝
 `)
   );
-  console.log(chalk.cyan("Welcome to the Number Guessing Game!\n"));
+  console.log(
+    chalk.hex("#FFA500").bold("Welcome to the Number Guessing Game!\n")
+  );
 
   startNumberGuessingGame();
 }
