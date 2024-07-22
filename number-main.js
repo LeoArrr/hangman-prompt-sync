@@ -1,5 +1,3 @@
-// main.js
-
 const chalk = require("chalk");
 const prompt = require("prompt-sync")();
 const { NumberGuessingGame } = require("./number-game-logic");
@@ -63,9 +61,13 @@ function printGameOverMessage(isLoss, numberToGuess) {
 }
 
 function startNumberGuessingGame() {
+  console.log(
+    chalk.hex("#33CCFF")("\n**INITIALIZING NEUROCORE INTERFACE...**\n")
+  );
   const game = new NumberGuessingGame();
 
   console.log(chalk.cyan("\nWelcome to the Number Guessing Game!"));
+
   console.log(chalk.cyan("Guess a number between 1 and 100.\n"));
 
   while (true) {
@@ -75,6 +77,7 @@ function startNumberGuessingGame() {
 
     if (input === "q") {
       console.log(chalk.red("\nExiting game..."));
+
       break;
     }
 
@@ -82,29 +85,37 @@ function startNumberGuessingGame() {
 
     if (isNaN(guess)) {
       console.log(chalk.red("\nInvalid input. Please enter a number.\n"));
+
       continue;
     }
 
     if (guess < 1 || guess > 100) {
       console.log(chalk.red("\nGuess must be between 1 and 100.\n"));
+
       continue;
     }
 
     const result = game.guessNumber(guess);
+
     console.log(`${result}\n`);
 
     // Use provideFeedback to give additional feedback
-    const numberToGuess = game.getNumberToGuess(); // Access the target number
+
+    const numberToGuess = game.getNumberToGuess();
+
     console.log(provideFeedback(guess, numberToGuess));
 
     const remainingAttempts = game.getRemainingAttempts();
+
     if (result.includes("Congratulations") || result.includes("Game over")) {
       printGameOverMessage(result.includes("Game over"), numberToGuess);
+
       break;
     }
 
     if (remainingAttempts <= 0) {
       printGameOverMessage(true, numberToGuess);
+
       break;
     }
 
@@ -112,22 +123,4 @@ function startNumberGuessingGame() {
   }
 }
 
-function main() {
-  console.log(
-    chalk.hex("#F74F4F").bold(`
-██████╗ ██╗   ██╗██████╗ ███████╗███████╗
-██╔══██╗██║   ██║██╔══██╗██╔════╝██╔════╝
-██████╔╝██║   ██║██████╔╝█████╗  ███████╗
-██╔══██╗██║   ██║██╔══██╗██╔══╝  ╚════██║
-██║  ██║╚██████╔╝██║  ██║███████╗███████║
-╚═╝  ╚═╝ ╚═════╝ ╚═╝  ╚═╝╚══════╝╚══════╝
-`)
-  );
-  console.log(
-    chalk.hex("#FFA500").bold("Welcome to the Number Guessing Game!\n")
-  );
-
-  startNumberGuessingGame();
-}
-
-main();
+module.exports = { startNumberGuessingGame };

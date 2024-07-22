@@ -1,11 +1,12 @@
 const chalk = require("chalk");
 const prompt = require("prompt-sync")();
 const hangman = require("./hangman-logic.js");
-const { startNumberGuessingGame } = require("./number-game-logic.js");
+const { startNumberGuessingGame } = require("./number-main.js");
 
 // color variables
 const brightRed = chalk.hex("#FF0000");
 const bold = chalk.bold.green;
+const correct = chalk.bold.green;
 const gameOver = chalk.red;
 const brightWhite = chalk.whiteBright;
 const brightPink = chalk.hex("#FF69B4");

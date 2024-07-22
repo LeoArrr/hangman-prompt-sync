@@ -1,5 +1,3 @@
-// number-game-logic.js
-
 class NumberGuessingGame {
   constructor() {
     this.numberToGuess = Math.floor(Math.random() * 100) + 1; // Random number between 1 and 100
