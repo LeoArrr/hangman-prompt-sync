@@ -1,9 +1,9 @@
 const chalk = require("chalk");
 const prompt = require("prompt-sync")();
-const hangman = require("./hangman-logic.js");
+const Hangman = require("./hangman-logic.js");
 const { startNumberGuessingGame } = require("./number-main.js");
 
-// color variables
+// Color variables
 const brightRed = chalk.hex("#FF0000");
 const bold = chalk.bold.green;
 const correct = chalk.bold.green;
@@ -12,7 +12,7 @@ const brightWhite = chalk.whiteBright;
 const brightPink = chalk.hex("#FF69B4");
 const boldOrange = chalk.hex("#FFA500").bold;
 
-// track games played
+// Track games played
 let gamesPlayed = [];
 
 function startHangmanGame() {
@@ -26,22 +26,24 @@ function startHangmanGame() {
     process.exit();
   }
 
-  hangman.startGame(topic);
+  // Create an instance of the Hangman class
+  const hangmanGame = new Hangman();
+  hangmanGame.startGame(topic);
 
   console.log(bold(`\nStarting a new game with topic: ${topic}`));
   console.log(bold("Good luck!\n"));
 
-  console.log(brightWhite(`Current word: ${hangman.displayWord()}\n`));
-  console.log(brightRed(hangman.lifespan.join(" "))); // Use the lifespan directly
+  console.log(brightWhite(`Current word: ${hangmanGame.displayWord()}\n`));
+  console.log(brightRed(hangmanGame.lifespan.join(" "))); // Use the lifespan directly
 
   while (true) {
     const letter = prompt(brightPink("Guess a letter: ")).toLowerCase();
-    const result = hangman.guessLetter(letter);
+    const result = hangmanGame.guessLetter(letter);
 
     if (result === "win") {
-      gamesPlayed.push({ name: hangman.word, outcome: "win" });
+      gamesPlayed.push({ name: hangmanGame.word, outcome: "win" });
 
-      console.log(brightRed("\nGames Played:"));
+      console.log(brightRed("\nGame Played:"));
       gamesPlayed.forEach((game) => {
         console.log(brightRed(`${game.name} - ${game.outcome}\n`));
       });
@@ -54,9 +56,9 @@ function startHangmanGame() {
     }
 
     if (result === "loss") {
-      gamesPlayed.push({ name: hangman.word, outcome: "loss" });
+      gamesPlayed.push({ name: hangmanGame.word, outcome: "loss" });
 
-      console.log(boldOrange("\nGames Played:"));
+      console.log(boldOrange("\nGame Played:"));
       gamesPlayed.forEach((game) => {
         console.log(boldOrange(`${game.name} - ${game.outcome}\n`));
       });

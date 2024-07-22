@@ -2,52 +2,17 @@ const chalk = require("chalk");
 const prompt = require("prompt-sync")();
 const { NumberGuessingGame } = require("./number-game-logic");
 
-// Sample reactions and hints arrays
-const reactions = [
-  "System error detected. Initiating diagnostic protocols...",
-  "Warning: Security breach imminent. Proceed with caution.",
-  "Analyzing potential outcomes...",
-  "Error: Data corruption detected. Attempting recovery...",
-  "Critical malfunction identified. Engaging troubleshooting sequence...",
-  "Alert: Unauthorized access attempt detected. Locking down systems...",
-  "Processing request... Anomaly detected, further analysis required.",
-  "Warning: Resource depletion imminent. Initiating emergency protocols...",
-  "Error: System overload imminent. Scaling down processes...",
-  "Diagnostic mode activated. Evaluating system integrity...",
-  "Alert: Communication disruption. Re-establishing connection...",
-  "Error: Firmware conflict detected. Deploying repair mechanisms...",
-  "Warning: Excessive heat detected. Cooling systems engaged...",
-  "System alert: Unscheduled reboot initiated. Analyzing cause...",
-];
-
-const hints = [
-  "Proximity sensors active. Target acquisition improving...",
-  "Navigational algorithms converging...",
-  "Signal clarity increasing...",
-  "System optimization detected. Nearing target...",
-  "Trajectory alignment achieved. Final approach initiated...",
-  "Power levels stabilizing. System functionality improving...",
-  "Operational efficiency increasing. Preparing for final phase...",
-  "Navigation path recalibrated. Proceeding with enhanced accuracy...",
-  "Signal strength optimal. Close to achieving objective...",
-  "Engagement protocols active. Monitoring for final adjustments...",
-  "System diagnostics confirm optimal conditions. Moving forward...",
-  "Proximity indicators green. Awaiting further instructions...",
-  "Mission parameters locked. Advancing to final execution phase...",
-  "Operational thresholds met. Preparing for next phase...",
-];
-
 // Function to get a reaction or hint based on guess difference
-function provideFeedback(guess, numberToGuess) {
+function provideFeedback(guess, numberToGuess, game) {
   const difference = Math.abs(guess - numberToGuess);
 
   if (difference > 15) {
     // Randomly select a reaction
-    const reaction = reactions[Math.floor(Math.random() * reactions.length)];
+    const reaction = game.getReaction();
     return chalk.hex("#FF69B4")(`${reaction}\n`);
   } else {
     // Randomly select a hint
-    const hint = hints[Math.floor(Math.random() * hints.length)];
+    const hint = game.getHint();
     return chalk.greenBright(`${hint}\n`);
   }
 }
@@ -77,7 +42,6 @@ function startNumberGuessingGame() {
 
     if (input === "q") {
       console.log(chalk.red("\nExiting game..."));
-
       break;
     }
 
@@ -85,13 +49,11 @@ function startNumberGuessingGame() {
 
     if (isNaN(guess)) {
       console.log(chalk.red("\nInvalid input. Please enter a number.\n"));
-
       continue;
     }
 
     if (guess < 1 || guess > 100) {
       console.log(chalk.red("\nGuess must be between 1 and 100.\n"));
-
       continue;
     }
 
@@ -100,22 +62,18 @@ function startNumberGuessingGame() {
     console.log(`${result}\n`);
 
     // Use provideFeedback to give additional feedback
-
     const numberToGuess = game.getNumberToGuess();
-
-    console.log(provideFeedback(guess, numberToGuess));
+    console.log(provideFeedback(guess, numberToGuess, game));
 
     const remainingAttempts = game.getRemainingAttempts();
 
     if (result.includes("Congratulations") || result.includes("Game over")) {
       printGameOverMessage(result.includes("Game over"), numberToGuess);
-
       break;
     }
 
     if (remainingAttempts <= 0) {
       printGameOverMessage(true, numberToGuess);
-
       break;
     }
 

@@ -1,13 +1,13 @@
 const chalk = require("chalk");
 
-//  color variables
+// Color variables
 const brightRed = chalk.hex("#FF0000");
 const brightOrange = chalk.hex("#FFA500");
 const correct = chalk.bold.green;
 const gameOver = chalk.red;
 const brightWhite = chalk.whiteBright;
 
-//  available topics and words
+// Available topics and words
 const topics = {
   music: [
     "guitar",
@@ -86,18 +86,25 @@ const topics = {
   ],
 };
 
-const hangman = {
-  word: "",
-  guessed: [],
-  attempts: 6,
-  lifespan: ["♥", "♥", "♥", "♥", "♥", "♥"],
+class Hangman {
+  constructor() {
+    this.word = "";
+    this.guessed = [];
+    this.attempts = 6;
+    this.lifespan = ["♥", "♥", "♥", "♥", "♥", "♥"];
+  }
 
   startGame(topic) {
+    if (!topics[topic]) {
+      console.log(gameOver(`Topic '${topic}' not found.\n`));
+      return;
+    }
+
     this.word = topics[topic][Math.floor(Math.random() * topics[topic].length)];
     this.guessed = [];
     this.attempts = 6;
     this.lifespan = ["♥", "♥", "♥", "♥", "♥", "♥"];
-  },
+  }
 
   guessLetter(letter) {
     if (this.guessed.includes(letter)) {
@@ -129,14 +136,14 @@ const hangman = {
     }
 
     return "continue";
-  },
+  }
 
   displayWord() {
     return this.word
       .split("")
       .map((letter) => (this.guessed.includes(letter) ? letter : "_"))
       .join(" ");
-  },
-};
+  }
+}
 
-module.exports = hangman;
+module.exports = Hangman;
